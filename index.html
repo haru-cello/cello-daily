@@ -1,58 +1,1875 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#111111"><link rel="manifest" href="manifest.webmanifest">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111111">
+<link rel="manifest" href="manifest.webmanifest">
 <title>Cello Daily</title>
+
 <style>
-:root{--bg:#f4f2ed;--card:#fff;--ink:#171717;--muted:#737373;--line:#ddd8ce;--accent:#202020;--soft:#ebe7df}
-*{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
-main{max-width:720px;margin:auto;padding:24px 18px 90px} header{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.headright{display:flex;gap:10px;align-items:center}.lang{display:flex;background:var(--soft);padding:3px;border-radius:10px}.lang button{border:0;background:transparent;padding:7px 9px;border-radius:8px;font-size:12px;cursor:pointer}.lang button.active{background:#fff;box-shadow:0 1px 4px #0001} h1{font-family:Georgia,serif;font-weight:500;letter-spacing:-.5px;margin:0;font-size:30px}.tag{font-size:12px;color:var(--muted)}
-.hero{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:0 8px 30px #00000008}.day{color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:.12em}.timer{font-size:54px;font-variant-numeric:tabular-nums;letter-spacing:-2px;margin:12px 0 18px}.btn{border:0;border-radius:14px;padding:15px 18px;font-weight:700;font-size:15px;cursor:pointer}.primary{background:var(--accent);color:#fff;width:100%}.secondary{background:var(--soft);color:var(--ink)}.danger{background:#eee;color:#333}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 12px}.stat b{font-size:21px;display:block}.stat span{font-size:11px;color:var(--muted)}
-section{margin-top:26px} h2{font-size:16px;margin:0 0 12px}.entry{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px;margin:9px 0}.row{display:flex;gap:10px;align-items:center;justify-content:space-between}.entry .meta{font-size:12px;color:var(--muted);margin-top:5px}.entry .note{margin-top:8px;font-size:14px}.empty{color:var(--muted);font-size:14px;padding:16px 0}.modal{position:fixed;inset:0;background:#0008;display:none;align-items:flex-end;justify-content:center;z-index:10}.modal.open{display:flex}.sheet{background:var(--bg);width:min(720px,100%);border-radius:24px 24px 0 0;padding:22px 18px 32px;max-height:92vh;overflow:auto}.field{margin:15px 0}.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:7px}.field input,.field textarea,.field select{width:100%;border:1px solid var(--line);border-radius:12px;padding:13px;background:#fff;font:inherit}.moods{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.mood{border:1px solid var(--line);background:#fff;border-radius:12px;padding:12px}.mood.active{outline:2px solid #222}.rec{display:flex;gap:8px;flex-wrap:wrap}.compare{display:grid;grid-template-columns:1fr 1fr;gap:10px}.compare>div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px}audio{width:100%;margin-top:8px}.tiny{font-size:11px;color:var(--muted)}
-@media(max-width:500px){.timer{font-size:48px}.grid{grid-template-columns:1fr 1fr}.grid .stat:last-child{grid-column:1/-1}.compare{grid-template-columns:1fr}}
+:root{
+  --bg:#f4f2ed;
+  --card:#fff;
+  --ink:#171717;
+  --muted:#737373;
+  --line:#ddd8ce;
+  --accent:#202020;
+  --soft:#ebe7df;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+  background:var(--bg);
+  color:var(--ink)
+}
+
+main{
+  max-width:720px;
+  margin:auto;
+  padding:24px 18px 90px
+}
+
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:22px
+}
+
+.headright{
+  display:flex;
+  gap:10px;
+  align-items:center
+}
+
+.lang{
+  display:flex;
+  background:var(--soft);
+  padding:3px;
+  border-radius:10px
+}
+
+.lang button{
+  border:0;
+  background:transparent;
+  padding:7px 9px;
+  border-radius:8px;
+  font-size:12px;
+  cursor:pointer
+}
+
+.lang button.active{
+  background:#fff;
+  box-shadow:0 1px 4px #0001
+}
+
+h1{
+  font-family:Georgia,serif;
+  font-weight:500;
+  letter-spacing:-.5px;
+  margin:0;
+  font-size:30px
+}
+
+.tag{
+  font-size:12px;
+  color:var(--muted)
+}
+
+.hero{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:24px;
+  box-shadow:0 8px 30px #00000008
+}
+
+.day{
+  color:var(--muted);
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:.12em
+}
+
+.timer{
+  font-size:54px;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:-2px;
+  margin:12px 0 18px
+}
+
+.btn{
+  border:0;
+  border-radius:14px;
+  padding:15px 18px;
+  font-weight:700;
+  font-size:15px;
+  cursor:pointer
+}
+
+.primary{
+  background:var(--accent);
+  color:#fff;
+  width:100%
+}
+
+.secondary{
+  background:var(--soft);
+  color:var(--ink)
+}
+
+.danger{
+  background:#f3e7e7;
+  color:#8a2929
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:12px
+}
+
+.stat{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px 12px
+}
+
+.stat b{
+  font-size:21px;
+  display:block
+}
+
+.stat span{
+  font-size:11px;
+  color:var(--muted)
+}
+
+section{
+  margin-top:26px
+}
+
+h2{
+  font-size:16px;
+  margin:0 0 12px
+}
+
+.entry{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:15px;
+  margin:9px 0
+}
+
+.row{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:space-between
+}
+
+.entry .meta{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:5px
+}
+
+.entry .note{
+  margin-top:8px;
+  font-size:14px
+}
+
+.empty{
+  color:var(--muted);
+  font-size:14px;
+  padding:16px 0
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:#0008;
+  display:none;
+  align-items:flex-end;
+  justify-content:center;
+  z-index:10
+}
+
+.modal.open{
+  display:flex
+}
+
+.sheet{
+  background:var(--bg);
+  width:min(720px,100%);
+  border-radius:24px 24px 0 0;
+  padding:22px 18px 32px;
+  max-height:92vh;
+  overflow:auto
+}
+
+.field{
+  margin:15px 0
+}
+
+.field label{
+  display:block;
+  font-size:12px;
+  color:var(--muted);
+  margin-bottom:7px
+}
+
+.field input,
+.field textarea,
+.field select{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:13px;
+  background:#fff;
+  font:inherit
+}
+
+.moods{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px
+}
+
+.mood{
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:12px;
+  padding:12px
+}
+
+.mood.active{
+  outline:2px solid #222
+}
+
+.rec{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap
+}
+
+.compare{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px
+}
+
+.compare>div{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px
+}
+
+audio{
+  width:100%;
+  margin-top:8px
+}
+
+.tiny{
+  font-size:11px;
+  color:var(--muted)
+}
+
+.history-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  justify-content:flex-end
+}
+
+.delete-one{
+  padding:8px 11px;
+  border-radius:10px;
+  font-size:12px;
+  margin-left:8px
+}
+
+@media(max-width:500px){
+  .timer{font-size:48px}
+  .grid{grid-template-columns:1fr 1fr}
+  .grid .stat:last-child{grid-column:1/-1}
+  .compare{grid-template-columns:1fr}
+  .row{align-items:flex-start}
+  .history-actions{gap:5px}
+  .history-actions .btn{padding:10px;font-size:12px}
+}
 </style>
 </head>
-<body><main>
-<header><div><h1>Cello Daily</h1><div class="tag" id="tagline">練習する。記録する。成長に気づく。</div></div><div class="headright"><div class="lang"><button id="jaBtn" class="active">日本語</button><button id="enBtn">English</button></div><div class="tag" id="today"></div></div></header>
-<div class="hero"><div class="day" id="dayCount">DAY 1</div><div class="timer" id="timer">00:00:00</div><button class="btn primary" id="startBtn">START PRACTICE</button></div>
-<div class="grid"><div class="stat"><b id="total">0m</b><span id="totalLabel">累計練習時間</span></div><div class="stat"><b id="consistency">0%</b><span id="consistencyLabel">30日間の継続率</span></div><div class="stat"><b id="days">0</b><span id="daysLabel">練習日数</span></div></div>
-<section><h2 id="compareTitle">30日前との比較</h2><div id="comparison" class="empty">Record a short clip after practice. When you have an older recording, it will appear here.</div></section>
-<section><div class="row"><h2 id="historyTitle">練習履歴</h2><button class="btn secondary" id="exportBtn">データを書き出す</button></div><div id="history"></div></section>
-</main>
-<div class="modal" id="finishModal"><div class="sheet"><div class="row"><h2 id="finishTitle">練習を終了</h2><button class="btn secondary" id="cancelFinish">戻る</button></div>
-<div class="field"><label id="feelLabel">今日の感触は？</label><div class="moods"><button class="mood" data-mood="Good">🙂 Good / 良い</button><button class="mood active" data-mood="Normal">😐 Normal / 普通</button><button class="mood" data-mood="Difficult">😣 Difficult / 難しい</button></div></div>
-<div class="field"><label id="practiceLabel">何を練習しましたか？</label><input id="piece" placeholder="ロングトーン、音階、バッハ…"></div>
-<div class="field"><label id="noteLabel">次回の練習へのメモ</label><textarea id="note" rows="3" placeholder="難しかったこと、次回覚えておきたいこと…"></textarea></div>
-<div class="field"><label id="recordLabel">今日の30秒録音（任意）</label><div class="rec"><button class="btn secondary" id="recordBtn">● 録音</button><button class="btn secondary" id="stopRecord" disabled>■ 停止</button></div><div id="recordStatus" class="tiny" style="margin-top:7px">この端末内だけに保存されます。</div><audio id="preview" controls style="display:none"></audio></div>
-<button class="btn primary" id="saveBtn">練習を保存</button></div></div>
-<script>
-const $=s=>document.querySelector(s); const DB='celloDailyEntries'; let entries=JSON.parse(localStorage.getItem(DB)||'[]');
-let running=false,startAt=0,tick=null,elapsed=0,mood='Normal',recorder=null,chunks=[],audioData=null,recStopTimer=null;
-let lang=localStorage.getItem('celloDailyLang')||'ja';
-const T={
-ja:{tagline:'練習する。記録する。成長に気づく。',day:'日目',start:'練習を開始',finish:'練習を終了',total:'累計練習時間',consistency:'30日間の継続率',days:'練習日数',compare:'30日前との比較',compareEmpty:'練習後に短い録音を残しましょう。過去の録音ができると、ここで聴き比べられます。',history:'練習履歴',export:'データを書き出す',first:'最初の練習記録がここに表示されます。',finishTitle:'練習を終了',back:'戻る',feel:'今日の感触は？',practice:'何を練習しましたか？',piecePH:'ロングトーン、音階、バッハ…',note:'次回の練習へのメモ',notePH:'難しかったこと、次回覚えておきたいこと…',record:'今日の30秒録音（任意）',recBtn:'● 録音',stop:'■ 停止',local:'この端末内だけに保存されます。',ready:'録音の保存準備ができました。',recording:'録音中… 最大30秒',mic:'録音にはマイクの許可が必要です。',save:'練習を保存',latest:'今日 / 最新',before:'以前',practiceWord:'練習',min:'分'},
-en:{tagline:'Practice. Record. Notice progress.',day:'DAY',start:'START PRACTICE',finish:'FINISH PRACTICE',total:'TOTAL PRACTICE',consistency:'30-DAY CONSISTENCY',days:'PRACTICE DAYS',compare:'30-day comparison',compareEmpty:'Record a short clip after practice. When you have an older recording, it will appear here.',history:'Practice history',export:'Export data',first:'Your first practice will appear here.',finishTitle:'Finish practice',back:'Back',feel:'How did it feel?',practice:'What did you practice?',piecePH:'Long tones, scale, Bach…',note:'Note for your next session',notePH:'What felt difficult? What should you remember?',record:"Today's 30-second recording (optional)",recBtn:'● Record',stop:'■ Stop',local:'Stored only on this device.',ready:'Recording ready to save.',recording:'Recording… max 30 seconds',mic:'Microphone permission is required for recording.',save:'SAVE PRACTICE',latest:'Today / Latest',before:'Before',practiceWord:'Practice',min:'min'}};
-const tr=k=>T[lang][k];
-function applyLang(){document.documentElement.lang=lang;$('#tagline').textContent=tr('tagline');$('#startBtn').textContent=running?tr('finish'):tr('start');$('#totalLabel').textContent=tr('total');$('#consistencyLabel').textContent=tr('consistency');$('#daysLabel').textContent=tr('days');$('#compareTitle').textContent=tr('compare');$('#historyTitle').textContent=tr('history');$('#exportBtn').textContent=tr('export');$('#finishTitle').textContent=tr('finishTitle');$('#cancelFinish').textContent=tr('back');$('#feelLabel').textContent=tr('feel');$('#practiceLabel').textContent=tr('practice');$('#piece').placeholder=tr('piecePH');$('#noteLabel').textContent=tr('note');$('#note').placeholder=tr('notePH');$('#recordLabel').textContent=tr('record');$('#recordBtn').textContent=tr('recBtn');$('#stopRecord').textContent=tr('stop');$('#saveBtn').textContent=tr('save');$('#jaBtn').classList.toggle('active',lang==='ja');$('#enBtn').classList.toggle('active',lang==='en');render();}
 
-const fmt=s=>{s=Math.max(0,Math.floor(s));return [Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(x=>String(x).padStart(2,'0')).join(':')};
-const dkey=d=>new Date(d).toISOString().slice(0,10); const pretty=d=>new Date(d).toLocaleDateString(lang==='ja'?'ja-JP':'en-US',{month:'short',day:'numeric',year:'numeric'});
-function save(){localStorage.setItem(DB,JSON.stringify(entries));render()}
-function render(){ $('#today').textContent=new Date().toLocaleDateString(lang==='ja'?'ja-JP':'en-US',{month:'short',day:'numeric'}); let unique=[...new Set(entries.map(e=>dkey(e.date)))];
- let first=entries.length?new Date(entries[entries.length-1].date):new Date(); $('#dayCount').textContent=(lang==='ja'?'':tr('day')+' ')+(Math.floor((new Date().setHours(0,0,0,0)-new Date(first).setHours(0,0,0,0))/86400000)+1)+(lang==='ja'?tr('day'):'');
- let secs=entries.reduce((a,e)=>a+e.seconds,0); $('#total').textContent=secs>=3600?(secs/3600).toFixed(1)+'h':Math.round(secs/60)+'m'; $('#days').textContent=unique.length;
- let now=new Date();now.setHours(0,0,0,0);let recent=new Set(entries.filter(e=>now-new Date(e.date).setHours(0,0,0,0)<=29*86400000).map(e=>dkey(e.date)));$('#consistency').textContent=Math.round(recent.size/30*100)+'%';
- $('#history').innerHTML=entries.length?'': '<div class="empty">'+tr('first')+'</div>';
- entries.slice(0,30).forEach((e,i)=>{let el=document.createElement('div');el.className='entry';el.innerHTML=`<div class="row"><b>${pretty(e.date)}</b><span>${Math.round(e.seconds/60)} ${tr('min')} · ${e.mood}</span></div><div class="meta">${escapeHtml(e.piece||tr('practiceWord'))}</div>${e.note?`<div class="note">${escapeHtml(e.note)}</div>`:''}${e.audio?`<audio controls src="${e.audio}"></audio>`:''}`;$('#history').appendChild(el)}); renderCompare();}
-function renderCompare(){let withAudio=entries.filter(e=>e.audio);if(!withAudio.length){$('#comparison').className='empty';$('#comparison').textContent=tr('compareEmpty');return;}let latest=withAudio[0], target=withAudio.find(e=>{let diff=(new Date(latest.date)-new Date(e.date))/86400000;return diff>=25&&diff<=40})||withAudio[withAudio.length-1];if(target===latest)return;$('#comparison').className='compare';$('#comparison').innerHTML=`<div><b>${tr('latest')}</b><div class="tiny">${pretty(latest.date)}</div><audio controls src="${latest.audio}"></audio></div><div><b>${tr('before')}</b><div class="tiny">${pretty(target.date)}</div><audio controls src="${target.audio}"></audio></div>`}
-function escapeHtml(s){return s.replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
-$('#startBtn').onclick=()=>{if(!running){running=true;startAt=Date.now();elapsed=0;$('#startBtn').textContent=tr('finish');tick=setInterval(()=>$('#timer').textContent=fmt((Date.now()-startAt)/1000),250)}else{elapsed=Math.max(1,Math.floor((Date.now()-startAt)/1000));clearInterval(tick);running=false;$('#finishModal').classList.add('open')}};
-$('#cancelFinish').onclick=()=>{$('#finishModal').classList.remove('open');running=true;startAt=Date.now()-elapsed*1000;tick=setInterval(()=>$('#timer').textContent=fmt((Date.now()-startAt)/1000),250)};
-document.querySelectorAll('.mood').forEach(b=>b.onclick=()=>{document.querySelectorAll('.mood').forEach(x=>x.classList.remove('active'));b.classList.add('active');mood=b.dataset.mood});
-$('#recordBtn').onclick=async()=>{try{let stream=await navigator.mediaDevices.getUserMedia({audio:true});chunks=[];recorder=new MediaRecorder(stream);recorder.ondataavailable=e=>chunks.push(e.data);recorder.onstop=()=>{let blob=new Blob(chunks,{type:recorder.mimeType});let r=new FileReader();r.onload=()=>{audioData=r.result;$('#preview').src=audioData;$('#preview').style.display='block';$('#recordStatus').textContent=tr('ready')};r.readAsDataURL(blob);stream.getTracks().forEach(t=>t.stop())};recorder.start();$('#recordBtn').disabled=true;$('#stopRecord').disabled=false;$('#recordStatus').textContent=tr('recording');recStopTimer=setTimeout(stopRec,30000)}catch(e){$('#recordStatus').textContent=tr('mic')}};
-function stopRec(){if(recorder&&recorder.state==='recording')recorder.stop();clearTimeout(recStopTimer);$('#recordBtn').disabled=false;$('#stopRecord').disabled=true} $('#stopRecord').onclick=stopRec;
-$('#saveBtn').onclick=()=>{if(recorder&&recorder.state==='recording')stopRec();entries.unshift({date:new Date().toISOString(),seconds:elapsed,mood,piece:$('#piece').value.trim(),note:$('#note').value.trim(),audio:audioData});save();$('#finishModal').classList.remove('open');$('#timer').textContent='00:00:00';$('#startBtn').textContent=tr('start');$('#piece').value='';$('#note').value='';audioData=null;$('#preview').style.display='none';$('#recordStatus').textContent='この端末内だけに保存されます。'};
-$('#exportBtn').onclick=()=>{let clean=entries.map(({audio,...x})=>x);let blob=new Blob([JSON.stringify(clean,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='cello-daily-backup.json';a.click();URL.revokeObjectURL(a.href)};
-$('#jaBtn').onclick=()=>{lang='ja';localStorage.setItem('celloDailyLang',lang);applyLang()};$('#enBtn').onclick=()=>{lang='en';localStorage.setItem('celloDailyLang',lang);applyLang()};if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js');applyLang();
-</script></body></html>
+<body>
+
+<main>
+
+<header>
+  <div>
+    <h1>Cello Daily</h1>
+    <div class="tag" id="tagline">
+      練習と成長の記録。
+    </div>
+  </div>
+
+  <div class="headright">
+    <div class="lang">
+      <button id="jaBtn" class="active">日本語</button>
+      <button id="enBtn">English</button>
+    </div>
+    <div class="tag" id="today"></div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="day" id="dayCount">1日目</div>
+  <div class="timer" id="timer">00:00:00</div>
+  <button class="btn primary" id="startBtn">
+    練習を開始
+  </button>
+</div>
+
+<div class="grid">
+
+  <div class="stat">
+    <b id="total">0m</b>
+    <span id="totalLabel">累計練習時間</span>
+  </div>
+
+  <div class="stat">
+    <b id="consistency">0%</b>
+    <span id="consistencyLabel">30日間の継続率</span>
+  </div>
+
+  <div class="stat">
+    <b id="days">0</b>
+    <span id="daysLabel">練習日数</span>
+  </div>
+
+</div>
+
+<section>
+  <h2 id="compareTitle">30日前との比較</h2>
+
+  <div id="comparison" class="empty">
+    練習後に短い録音が残せます。過去の録音ができると、ここで聴き比べられます。
+  </div>
+</section>
+
+<section>
+
+  <div class="row">
+
+    <h2 id="historyTitle">
+      練習履歴
+    </h2>
+
+    <div class="history-actions">
+
+      <button
+        class="btn secondary"
+        id="exportBtn">
+        CSV出力
+      </button>
+
+      <button
+        class="btn danger"
+        id="deleteAllBtn">
+        全履歴を削除
+      </button>
+
+    </div>
+
+  </div>
+
+  <div id="history"></div>
+
+</section>
+
+</main>
+
+
+<div class="modal" id="finishModal">
+
+<div class="sheet">
+
+<div class="row">
+
+<h2 id="finishTitle">
+練習を終了
+</h2>
+
+<button
+class="btn secondary"
+id="cancelFinish">
+戻る
+</button>
+
+</div>
+
+
+<div class="field">
+
+<label id="feelLabel">
+今日の感触は？
+</label>
+
+<div class="moods">
+
+<button class="mood" data-mood="Good">
+🙂 Good / 良い
+</button>
+
+<button class="mood active" data-mood="Normal">
+😐 Normal / 普通
+</button>
+
+<button class="mood" data-mood="Difficult">
+😣 Difficult / 難しい
+</button>
+
+</div>
+
+</div>
+
+
+<div class="field">
+
+<label id="practiceLabel">
+何を練習しましたか？
+</label>
+
+<input
+id="piece"
+placeholder="ロングトーン、音階、バッハ…">
+
+</div>
+
+
+<div class="field">
+
+<label id="noteLabel">
+次回の練習へのメモ
+</label>
+
+<textarea
+id="note"
+rows="3"
+placeholder="難しかったこと、次回覚えておきたいこと…">
+</textarea>
+
+</div>
+
+
+<div class="field">
+
+<label id="recordLabel">
+今日の30秒録音（任意）
+</label>
+
+<div class="rec">
+
+<button
+class="btn secondary"
+id="recordBtn">
+● 録音
+</button>
+
+<button
+class="btn secondary"
+id="stopRecord"
+disabled>
+■ 停止
+</button>
+
+</div>
+
+<div
+id="recordStatus"
+class="tiny"
+style="margin-top:7px">
+この端末内だけに保存されます。
+</div>
+
+<audio
+id="preview"
+controls
+style="display:none">
+</audio>
+
+</div>
+
+
+<button
+class="btn primary"
+id="saveBtn">
+練習を保存
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+const $ = s => document.querySelector(s);
+
+const DB = 'celloDailyEntries';
+
+let entries =
+JSON.parse(localStorage.getItem(DB) || '[]');
+
+let running = false;
+let startAt = 0;
+let tick = null;
+let elapsed = 0;
+
+let mood = 'Normal';
+
+let recorder = null;
+let chunks = [];
+let audioData = null;
+let recStopTimer = null;
+
+let lang =
+localStorage.getItem('celloDailyLang') || 'ja';
+
+
+const T = {
+
+ja:{
+
+tagline:'練習と成長の記録。',
+
+day:'日目',
+
+start:'練習を開始',
+
+finish:'練習を終了',
+
+total:'累計練習時間',
+
+consistency:'30日間の継続率',
+
+days:'練習日数',
+
+compare:'30日前との比較',
+
+compareEmpty:
+'練習後に短い録音を残しましょう。過去の録音ができると、ここで聴き比べられます。',
+
+history:'練習履歴',
+
+first:'最初の練習記録がここに表示されます。',
+
+finishTitle:'練習を終了',
+
+back:'戻る',
+
+feel:'今日の感触は？',
+
+practice:'何を練習しましたか？',
+
+piecePH:'ロングトーン、音階、バッハ…',
+
+note:'次回の練習へのメモ',
+
+notePH:
+'難しかったこと、次回覚えておきたいこと…',
+
+record:'今日の30秒録音（任意）',
+
+recBtn:'● 録音',
+
+stop:'■ 停止',
+
+local:'この端末内だけに保存されます。',
+
+ready:'録音の保存準備ができました。',
+
+recording:'録音中… 最大30秒',
+
+mic:'録音にはマイクの許可が必要です。',
+
+save:'練習を保存',
+
+latest:'今日 / 最新',
+
+before:'以前',
+
+practiceWord:'練習',
+
+min:'分',
+
+deleteOne:'削除',
+
+deleteAll:'全履歴を削除',
+
+deleteConfirm:
+'この練習記録を削除しますか？',
+
+deleteAllConfirm:
+'すべての練習履歴を削除します。この操作は元に戻せません。よろしいですか？'
+
+},
+
+
+en:{
+
+tagline:
+'Practice. Record. Notice progress.',
+
+day:'DAY',
+
+start:'START PRACTICE',
+
+finish:'FINISH PRACTICE',
+
+total:'TOTAL PRACTICE',
+
+consistency:'30-DAY CONSISTENCY',
+
+days:'PRACTICE DAYS',
+
+compare:'30-day comparison',
+
+compareEmpty:
+'Record a short clip after practice. When you have an older recording, it will appear here.',
+
+history:'Practice history',
+
+first:
+'Your first practice will appear here.',
+
+finishTitle:'Finish practice',
+
+back:'Back',
+
+feel:'How did it feel?',
+
+practice:'What did you practice?',
+
+piecePH:
+'Long tones, scale, Bach…',
+
+note:
+'Note for your next session',
+
+notePH:
+'What felt difficult? What should you remember?',
+
+record:
+"Today's 30-second recording (optional)",
+
+recBtn:'● Record',
+
+stop:'■ Stop',
+
+local:'Stored only on this device.',
+
+ready:
+'Recording ready to save.',
+
+recording:
+'Recording… max 30 seconds',
+
+mic:
+'Microphone permission is required for recording.',
+
+save:'SAVE PRACTICE',
+
+latest:'Today / Latest',
+
+before:'Before',
+
+practiceWord:'Practice',
+
+min:'min',
+
+deleteOne:'Delete',
+
+deleteAll:'Delete all',
+
+deleteConfirm:
+'Delete this practice record?',
+
+deleteAllConfirm:
+'Delete all practice history? This cannot be undone.'
+
+}
+
+};
+
+
+const tr = k => T[lang][k];
+
+
+function applyLang(){
+
+document.documentElement.lang = lang;
+
+$('#tagline').textContent =
+tr('tagline');
+
+$('#startBtn').textContent =
+running ? tr('finish') : tr('start');
+
+$('#totalLabel').textContent =
+tr('total');
+
+$('#consistencyLabel').textContent =
+tr('consistency');
+
+$('#daysLabel').textContent =
+tr('days');
+
+$('#compareTitle').textContent =
+tr('compare');
+
+$('#historyTitle').textContent =
+tr('history');
+
+$('#exportBtn').textContent =
+lang === 'ja'
+? 'CSV出力'
+: 'Export CSV';
+
+$('#deleteAllBtn').textContent =
+tr('deleteAll');
+
+$('#finishTitle').textContent =
+tr('finishTitle');
+
+$('#cancelFinish').textContent =
+tr('back');
+
+$('#feelLabel').textContent =
+tr('feel');
+
+$('#practiceLabel').textContent =
+tr('practice');
+
+$('#piece').placeholder =
+tr('piecePH');
+
+$('#noteLabel').textContent =
+tr('note');
+
+$('#note').placeholder =
+tr('notePH');
+
+$('#recordLabel').textContent =
+tr('record');
+
+$('#recordBtn').textContent =
+tr('recBtn');
+
+$('#stopRecord').textContent =
+tr('stop');
+
+$('#saveBtn').textContent =
+tr('save');
+
+$('#jaBtn').classList.toggle(
+'active',
+lang === 'ja'
+);
+
+$('#enBtn').classList.toggle(
+'active',
+lang === 'en'
+);
+
+render();
+
+}
+
+
+const fmt = s => {
+
+s = Math.max(
+0,
+Math.floor(s)
+);
+
+return [
+
+Math.floor(s / 3600),
+
+Math.floor(s % 3600 / 60),
+
+s % 60
+
+]
+.map(
+x =>
+String(x).padStart(2,'0')
+)
+.join(':');
+
+};
+
+
+const dkey = d =>
+new Date(d)
+.toISOString()
+.slice(0,10);
+
+
+const pretty = d =>
+
+new Date(d)
+.toLocaleDateString(
+
+lang === 'ja'
+? 'ja-JP'
+: 'en-US',
+
+{
+month:'short',
+day:'numeric',
+year:'numeric'
+}
+
+);
+
+
+function save(){
+
+localStorage.setItem(
+DB,
+JSON.stringify(entries)
+);
+
+render();
+
+}
+
+
+function render(){
+
+$('#today').textContent =
+
+new Date()
+.toLocaleDateString(
+
+lang === 'ja'
+? 'ja-JP'
+: 'en-US',
+
+{
+month:'short',
+day:'numeric'
+}
+
+);
+
+
+let unique = [
+
+...new Set(
+
+entries.map(
+e => dkey(e.date)
+)
+
+)
+
+];
+
+
+let first =
+
+entries.length
+
+? new Date(
+entries[entries.length - 1].date
+)
+
+: new Date();
+
+
+$('#dayCount').textContent =
+
+(lang === 'ja'
+? ''
+: tr('day') + ' ')
+
++
+
+(
+Math.floor(
+
+(
+new Date()
+.setHours(0,0,0,0)
+
+-
+
+new Date(first)
+.setHours(0,0,0,0)
+
+)
+
+/ 86400000
+
+)
+
++ 1
+)
+
++
+
+(lang === 'ja'
+? tr('day')
+: '');
+
+
+let secs =
+
+entries.reduce(
+(a,e) =>
+a + e.seconds,
+0
+);
+
+
+$('#total').textContent =
+
+secs >= 3600
+
+? (secs / 3600).toFixed(1) + 'h'
+
+: Math.round(secs / 60) + 'm';
+
+
+$('#days').textContent =
+unique.length;
+
+
+let now = new Date();
+
+now.setHours(
+0,0,0,0
+);
+
+
+let recent =
+
+new Set(
+
+entries
+
+.filter(
+
+e =>
+
+now
+
+-
+
+new Date(e.date)
+.setHours(0,0,0,0)
+
+<= 29 * 86400000
+
+)
+
+.map(
+e => dkey(e.date)
+)
+
+);
+
+
+$('#consistency').textContent =
+
+Math.round(
+
+recent.size
+/
+30
+*
+100
+
+)
+
++
+'%';
+
+
+$('#history').innerHTML =
+
+entries.length
+
+? ''
+
+: '<div class="empty">'
++ tr('first')
++ '</div>';
+
+
+entries
+.slice(0,30)
+.forEach(
+(e,i) => {
+
+let el =
+document.createElement('div');
+
+el.className =
+'entry';
+
+
+el.innerHTML = `
+
+<div class="row">
+
+<b>
+${pretty(e.date)}
+</b>
+
+<div>
+
+<span>
+${Math.round(e.seconds / 60)}
+${tr('min')}
+ ·
+${e.mood}
+</span>
+
+<button
+class="btn danger delete-one"
+data-index="${i}">
+${tr('deleteOne')}
+</button>
+
+</div>
+
+</div>
+
+<div class="meta">
+
+${escapeHtml(
+e.piece
+||
+tr('practiceWord')
+)}
+
+</div>
+
+${
+
+e.note
+
+? `<div class="note">
+${escapeHtml(e.note)}
+</div>`
+
+: ''
+
+}
+
+${
+
+e.audio
+
+? `<audio controls src="${e.audio}">
+</audio>`
+
+: ''
+
+}
+
+`;
+
+
+$('#history')
+.appendChild(el);
+
+});
+
+
+document
+.querySelectorAll(
+'.delete-one'
+)
+.forEach(
+
+b =>
+
+b.onclick = () => {
+
+if(
+confirm(
+tr('deleteConfirm')
+)
+){
+
+entries.splice(
+Number(
+b.dataset.index
+),
+1
+);
+
+save();
+
+}
+
+}
+
+);
+
+
+renderCompare();
+
+}
+
+
+function renderCompare(){
+
+let withAudio =
+entries.filter(
+e => e.audio
+);
+
+
+if(
+!withAudio.length
+){
+
+$('#comparison').className =
+'empty';
+
+$('#comparison').textContent =
+tr('compareEmpty');
+
+return;
+
+}
+
+
+let latest =
+withAudio[0];
+
+
+let target =
+
+withAudio.find(
+
+e => {
+
+let diff =
+
+(
+new Date(latest.date)
+
+-
+
+new Date(e.date)
+
+)
+
+/ 86400000;
+
+return
+
+diff >= 25
+
+&&
+
+diff <= 40;
+
+}
+
+)
+
+||
+
+withAudio[
+withAudio.length - 1
+];
+
+
+if(
+target === latest
+){
+
+$('#comparison').className =
+'empty';
+
+$('#comparison').textContent =
+tr('compareEmpty');
+
+return;
+
+}
+
+
+$('#comparison').className =
+'compare';
+
+
+$('#comparison').innerHTML = `
+
+<div>
+
+<b>
+${tr('latest')}
+</b>
+
+<div class="tiny">
+${pretty(latest.date)}
+</div>
+
+<audio
+controls
+src="${latest.audio}">
+</audio>
+
+</div>
+
+
+<div>
+
+<b>
+${tr('before')}
+</b>
+
+<div class="tiny">
+${pretty(target.date)}
+</div>
+
+<audio
+controls
+src="${target.audio}">
+</audio>
+
+</div>
+
+`;
+
+}
+
+
+function escapeHtml(s){
+
+return String(s)
+.replace(
+
+/[&<>'"]/g,
+
+c => ({
+
+'&':'&amp;',
+
+'<':'&lt;',
+
+'>':'&gt;',
+
+"'":'&#39;',
+
+'"':'&quot;'
+
+}[c])
+
+);
+
+}
+
+
+$('#startBtn').onclick = () => {
+
+if(
+!running
+){
+
+running = true;
+
+startAt =
+Date.now();
+
+elapsed = 0;
+
+$('#startBtn').textContent =
+tr('finish');
+
+tick =
+setInterval(
+
+() =>
+
+$('#timer').textContent =
+
+fmt(
+
+(
+Date.now()
+-
+startAt
+)
+
+/ 1000
+
+),
+
+250
+
+);
+
+}
+
+else{
+
+elapsed =
+Math.max(
+
+1,
+
+Math.floor(
+
+(
+Date.now()
+-
+startAt
+)
+
+/ 1000
+
+)
+
+);
+
+
+clearInterval(tick);
+
+running = false;
+
+$('#finishModal')
+.classList
+.add('open');
+
+}
+
+};
+
+
+$('#cancelFinish').onclick =
+() => {
+
+$('#finishModal')
+.classList
+.remove('open');
+
+running = true;
+
+startAt =
+Date.now()
+-
+elapsed * 1000;
+
+tick =
+setInterval(
+
+() =>
+
+$('#timer').textContent =
+
+fmt(
+
+(
+Date.now()
+-
+startAt
+)
+
+/ 1000
+
+),
+
+250
+
+);
+
+};
+
+
+document
+.querySelectorAll('.mood')
+.forEach(
+
+b =>
+
+b.onclick = () => {
+
+document
+.querySelectorAll('.mood')
+.forEach(
+
+x =>
+x.classList.remove(
+'active'
+)
+
+);
+
+b.classList.add(
+'active'
+);
+
+mood =
+b.dataset.mood;
+
+}
+
+);
+
+
+$('#recordBtn').onclick =
+async () => {
+
+try{
+
+let stream =
+
+await navigator
+.mediaDevices
+.getUserMedia(
+{audio:true}
+);
+
+
+chunks = [];
+
+
+recorder =
+new MediaRecorder(
+stream
+);
+
+
+recorder.ondataavailable =
+e =>
+chunks.push(
+e.data
+);
+
+
+recorder.onstop = () => {
+
+let blob =
+new Blob(
+
+chunks,
+
+{
+type:
+recorder.mimeType
+}
+
+);
+
+
+let r =
+new FileReader();
+
+
+r.onload = () => {
+
+audioData =
+r.result;
+
+$('#preview').src =
+audioData;
+
+$('#preview').style.display =
+'block';
+
+$('#recordStatus').textContent =
+tr('ready');
+
+};
+
+
+r.readAsDataURL(
+blob
+);
+
+
+stream
+.getTracks()
+.forEach(
+t => t.stop()
+);
+
+};
+
+
+recorder.start();
+
+
+$('#recordBtn').disabled =
+true;
+
+$('#stopRecord').disabled =
+false;
+
+$('#recordStatus').textContent =
+tr('recording');
+
+
+recStopTimer =
+setTimeout(
+stopRec,
+30000
+);
+
+}
+
+catch(e){
+
+$('#recordStatus').textContent =
+tr('mic');
+
+}
+
+};
+
+
+function stopRec(){
+
+if(
+
+recorder
+
+&&
+
+recorder.state ===
+'recording'
+
+){
+
+recorder.stop();
+
+}
+
+clearTimeout(
+recStopTimer
+);
+
+$('#recordBtn').disabled =
+false;
+
+$('#stopRecord').disabled =
+true;
+
+}
+
+
+$('#stopRecord').onclick =
+stopRec;
+
+
+$('#saveBtn').onclick =
+() => {
+
+if(
+
+recorder
+
+&&
+
+recorder.state ===
+'recording'
+
+){
+
+stopRec();
+
+}
+
+
+entries.unshift({
+
+date:
+new Date()
+.toISOString(),
+
+seconds:
+elapsed,
+
+mood,
+
+piece:
+$('#piece')
+.value
+.trim(),
+
+note:
+$('#note')
+.value
+.trim(),
+
+audio:
+audioData
+
+});
+
+
+save();
+
+
+$('#finishModal')
+.classList
+.remove('open');
+
+
+$('#timer').textContent =
+'00:00:00';
+
+
+$('#startBtn').textContent =
+tr('start');
+
+
+$('#piece').value =
+'';
+
+
+$('#note').value =
+'';
+
+
+audioData =
+null;
+
+
+$('#preview').style.display =
+'none';
+
+
+$('#recordStatus').textContent =
+tr('local');
+
+};
+
+
+$('#exportBtn').onclick =
+() => {
+
+let q =
+v =>
+'"'
++
+String(v ?? '')
+.replace(
+/"/g,
+'""'
+)
++
+'"';
+
+
+let header =
+
+lang === 'ja'
+
+?
+
+[
+'日時',
+'練習時間(分)',
+'評価',
+'練習内容',
+'次回メモ'
+]
+
+:
+
+[
+'Date',
+'Practice minutes',
+'Rating',
+'Practice content',
+'Next-session note'
+];
+
+
+let rows =
+
+entries.map(
+
+e => [
+
+new Date(e.date)
+.toLocaleString(
+
+lang === 'ja'
+? 'ja-JP'
+: 'en-US'
+
+),
+
+Math.round(
+e.seconds / 60
+),
+
+e.mood,
+
+e.piece || '',
+
+e.note || ''
+
+]
+
+);
+
+
+let csv =
+
+'\ufeff'
+
++
+
+[
+header,
+...rows
+]
+
+.map(
+
+r =>
+r
+.map(q)
+.join(',')
+
+)
+
+.join('\r\n');
+
+
+let blob =
+new Blob(
+
+[csv],
+
+{
+type:
+'text/csv;charset=utf-8;'
+}
+
+);
+
+
+let a =
+document.createElement('a');
+
+
+a.href =
+URL.createObjectURL(
+blob
+);
+
+
+a.download =
+'cello-daily-history.csv';
+
+
+a.click();
+
+
+URL.revokeObjectURL(
+a.href
+);
+
+};
+
+
+$('#deleteAllBtn').onclick =
+() => {
+
+if(
+!entries.length
+){
+return;
+}
+
+
+if(
+
+confirm(
+tr('deleteAllConfirm')
+)
+
+){
+
+entries = [];
+
+save();
+
+}
+
+};
+
+
+$('#jaBtn').onclick =
+() => {
+
+lang = 'ja';
+
+localStorage.setItem(
+'celloDailyLang',
+lang
+);
+
+applyLang();
+
+};
+
+
+$('#enBtn').onclick =
+() => {
+
+lang = 'en';
+
+localStorage.setItem(
+'celloDailyLang',
+lang
+);
+
+applyLang();
+
+};
+
+
+if(
+'serviceWorker'
+in navigator
+){
+
+navigator
+.serviceWorker
+.register(
+'./sw.js'
+);
+
+}
+
+
+applyLang();
+
+</script>
+
+</body>
+</html>
