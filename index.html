@@ -297,6 +297,13 @@ audio{
   margin-left:8px
 }
 
+.share-discord{
+  padding:8px 11px;
+  border-radius:10px;
+  font-size:12px;
+  margin-left:8px
+}
+
 @media(max-width:500px){
   .timer{font-size:48px}
   .grid{grid-template-columns:1fr 1fr}
@@ -613,6 +620,12 @@ min:'分',
 
 deleteOne:'削除',
 
+shareDiscord:'Discordに共有',
+
+copiedDiscord:'Discord投稿文をコピーしました。Discordに貼り付けてください。',
+
+copyFailed:'コピーできませんでした。表示された文章をコピーしてください。',
+
 deleteAll:'全履歴を削除',
 
 deleteConfirm:
@@ -697,6 +710,12 @@ practiceWord:'Practice',
 min:'min',
 
 deleteOne:'Delete',
+
+shareDiscord:'Share to Discord',
+
+copiedDiscord:'Discord post copied. Paste it into Discord.',
+
+copyFailed:'Could not copy automatically. Please copy the displayed text.',
 
 deleteAll:'Delete all',
 
@@ -1049,6 +1068,12 @@ ${e.mood}
 </span>
 
 <button
+class="btn secondary share-discord"
+data-index="${i}">
+${tr('shareDiscord')}
+</button>
+
+<button
 class="btn danger delete-one"
 data-index="${i}">
 ${tr('deleteOne')}
@@ -1098,6 +1123,90 @@ $('#history')
 .appendChild(el);
 
 });
+
+
+document
+.querySelectorAll(
+'.share-discord'
+)
+.forEach(
+
+b =>
+
+b.onclick = async () => {
+
+let e =
+entries[
+Number(
+b.dataset.index
+)
+];
+
+let practiceDays =
+new Set(
+entries.map(
+x => dkey(x.date)
+)
+).size;
+
+let text =
+
+lang === 'ja'
+
+? [
+'🎻 Cello Daily',
+'',
+'📅 ' + pretty(e.date),
+'⏱ 練習時間：' + Math.round(e.seconds / 60) + '分',
+'🙂 今日の感触：' + e.mood,
+'',
+'【練習内容】',
+e.piece || '練習',
+'',
+'【次回メモ】',
+e.note || 'なし',
+'',
+'🔥 練習日数：' + practiceDays + '日'
+].join('\n')
+
+: [
+'🎻 Cello Daily',
+'',
+'📅 ' + pretty(e.date),
+'⏱ Practice: ' + Math.round(e.seconds / 60) + ' min',
+'🙂 Feeling: ' + e.mood,
+'',
+'【Practice】',
+e.piece || 'Practice',
+'',
+'【Next-session note】',
+e.note || 'None',
+'',
+'🔥 Practice days: ' + practiceDays
+].join('\n');
+
+try{
+
+await navigator.clipboard.writeText(text);
+
+alert(
+tr('copiedDiscord')
+);
+
+}
+
+catch(err){
+
+window.prompt(
+tr('copyFailed'),
+text
+);
+
+}
+
+}
+
+);
 
 
 document
